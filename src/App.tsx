@@ -5,11 +5,14 @@ import { sune } from './cases'
 function App() {
   const playerRef = useRef<HTMLElement>(null)
   const [showAlgorithm, setShowAlgorithm] = useState(true)
+  const [mode, setMode] = useState<'scramble' | 'solve'>('scramble')
 
   useEffect(() => {
-    // @ts-expect-error - twisty-player is a custom element, not a typed React component
-    playerRef.current?.play?.()
-  }, [])
+    const player = playerRef.current as any
+    if (!player) return
+    player.timestamp = 'start'
+    player.play()
+  }, [mode])
 
   return (
     <div
@@ -35,15 +38,31 @@ function App() {
 
       {showAlgorithm && <p>Algorithm: {sune.algorithm}</p>}
 
-      {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
-      <twisty-player
-        ref={playerRef}
-        alg={sune.algorithm}
-        experimental-setup-anchor="start"
-        background="none"
-        control-panel="bottom-row"
-        style={{ width: '300px', height: '300px' }}
-      />
+      {mode === 'scramble' ? (
+        // @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component
+        <twisty-player
+          ref={playerRef}
+          alg={sune.scramble}
+          background="none"
+          control-panel="bottom-row"
+          style={{ width: '300px', height: '300px' }}
+        />
+      ) : (
+        // @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component
+        <twisty-player
+          ref={playerRef}
+          experimental-setup-alg={sune.scramble}
+          alg={sune.algorithm}
+          background="none"
+          control-panel="bottom-row"
+          style={{ width: '300px', height: '300px' }}
+        />
+      )}
+
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <button onClick={() => setMode('scramble')}>Play Scramble</button>
+        <button onClick={() => setMode('solve')}>Play Solve</button>
+      </div>
     </div>
   )
 }
