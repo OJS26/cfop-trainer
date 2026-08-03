@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import 'cubing/twisty'
+import { sune } from './cases'
 
 function App() {
   const playerRef = useRef<HTMLElement>(null)
@@ -14,20 +15,21 @@ function App() {
       style={{
         background: '#111',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
         margin: 0,
+        color: 'white',
+        fontFamily: 'sans-serif',
+        gap: '1rem',
       }}
     >
-      {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
-      <twisty-player
-        ref={playerRef}
-        alg="R U R' U R U2' R'"
-        experimental-setup-anchor="start"
-        background="none"
-        control-panel="bottom-row"
-      />
+      <h1>{sune.name}</h1>
+      <p>Scramble: {sune.scramble}</p>
+
+      
+      
     </div>
   )
 }
