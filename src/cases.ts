@@ -11,5 +11,5 @@ export const sune: Case = {
   name: 'Sune',
   group: 'OLL',
   scramble: "R U R' U R U2' R'",
-  algorithm: "R U R' U R U2' R'",
+  algorithm: "R U2 R' U' R U' R'",
 }

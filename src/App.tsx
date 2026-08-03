@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import 'cubing/twisty'
 import { sune } from './cases'
 
 function App() {
   const playerRef = useRef<HTMLElement>(null)
+  const [showAlgorithm, setShowAlgorithm] = useState(true)
 
   useEffect(() => {
     // @ts-expect-error - twisty-player is a custom element, not a typed React component
@@ -28,8 +29,21 @@ function App() {
       <h1>{sune.name}</h1>
       <p>Scramble: {sune.scramble}</p>
 
-      
-      
+      <button onClick={() => setShowAlgorithm((prev) => !prev)}>
+        {showAlgorithm ? 'Hide Algorithm' : 'Show Algorithm'}
+      </button>
+
+      {showAlgorithm && <p>Algorithm: {sune.algorithm}</p>}
+
+      {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
+      <twisty-player
+        ref={playerRef}
+        alg={sune.algorithm}
+        experimental-setup-anchor="start"
+        background="none"
+        control-panel="bottom-row"
+        style={{ width: '300px', height: '300px' }}
+      />
     </div>
   )
 }
