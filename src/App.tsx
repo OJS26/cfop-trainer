@@ -1,18 +1,28 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import 'cubing/twisty'
 import { sune } from './cases'
 
 function App() {
-  const playerRef = useRef<HTMLElement>(null)
+  const scrambleRef = useRef<HTMLElement>(null)
+  const solveRef = useRef<HTMLElement>(null)
   const [showAlgorithm, setShowAlgorithm] = useState(true)
   const [mode, setMode] = useState<'scramble' | 'solve'>('scramble')
 
-  useEffect(() => {
-    const player = playerRef.current as any
+  const playScramble = () => {
+    setMode('scramble')
+    const player = scrambleRef.current as any
     if (!player) return
     player.timestamp = 'start'
     player.play()
-  }, [mode])
+  }
+
+  const playSolve = () => {
+    setMode('solve')
+    const player = solveRef.current as any
+    if (!player) return
+    player.timestamp = 'start'
+    player.play()
+  }
 
   return (
     <div
@@ -36,32 +46,43 @@ function App() {
         {showAlgorithm ? 'Hide Algorithm' : 'Show Algorithm'}
       </button>
 
-      {showAlgorithm && <p>Algorithm: {sune.algorithm}</p>}
+      {showAlgorithm &&
+        (mode === 'scramble' ? (
+          // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
+          <twisty-alg-viewer for="scramble-player" alg={sune.scramble} />
+        ) : (
+          // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
+          <twisty-alg-viewer for="solve-player" alg={sune.algorithm} />
+        ))}
 
-      {mode === 'scramble' ? (
-        // @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component
+      <div style={{ display: mode === 'scramble' ? 'block' : 'none' }}>
+        {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
         <twisty-player
-          ref={playerRef}
+          id="scramble-player"
+          ref={scrambleRef}
           alg={sune.scramble}
           background="none"
           control-panel="bottom-row"
           style={{ width: '300px', height: '300px' }}
         />
-      ) : (
-        // @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component
+      </div>
+
+      <div style={{ display: mode === 'solve' ? 'block' : 'none' }}>
+        {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
         <twisty-player
-          ref={playerRef}
+          id="solve-player"
+          ref={solveRef}
           experimental-setup-alg={sune.scramble}
           alg={sune.algorithm}
           background="none"
           control-panel="bottom-row"
           style={{ width: '300px', height: '300px' }}
         />
-      )}
+      </div>
 
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={() => setMode('scramble')}>Play Scramble</button>
-        <button onClick={() => setMode('solve')}>Play Solve</button>
+        <button onClick={playScramble}>Play Scramble</button>
+        <button onClick={playSolve}>Play Solve</button>
       </div>
     </div>
   )
