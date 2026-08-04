@@ -45,8 +45,20 @@ function App() {
               style={{
                 fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
                 opacity: index === currentCaseIndex ? 1 : 0.6,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '4px',
               }}
             >
+              {/* @ts-expect-error - twisty-player is a custom element, not typed for React */}
+              <twisty-player
+                experimental-setup-alg={c.scramble}
+                visualization="experimental-2D-LL"
+                control-panel="none"
+                background="none"
+                style={{ width: '50px', height: '50px', pointerEvents: 'none' }}
+              />
               {c.name}
             </button>
           ) : null
