@@ -2,15 +2,41 @@ export type Case = {
   id: string
   name: string
   group: 'OLL' | 'PLL' | 'F2L'
+  part: 1 | 2
   scramble: string
   algorithm: string
 }
 
 export const cases: Case[] = [
   {
+    id: 'oll-dot',
+    name: 'Dot',
+    group: 'OLL',
+    part: 1,
+    scramble: "f U R U' R' f' F U R U' R' F'",
+    algorithm: "F R U R' U' F' f R U R' U' f'",
+  },
+  {
+    id: 'oll-i',
+    name: 'I Shape',
+    group: 'OLL',
+    part: 1,
+    scramble: "F U R U' R' F'",
+    algorithm: "F R U R' U' F'",
+  },
+  {
+    id: 'oll-l-edge',
+    name: 'L Shape',
+    group: 'OLL',
+    part: 1,
+    scramble: "f U R U' R' f'",
+    algorithm: "f R U R' U' f'",
+  },
+  {
     id: 'oll-sune',
     name: 'Sune',
     group: 'OLL',
+    part: 2,
     scramble: "R U2 R' U' R U' R'",
     algorithm: "R U R' U R U2' R'",
   },
@@ -18,7 +44,48 @@ export const cases: Case[] = [
     id: 'oll-antisune',
     name: 'Anti-Sune',
     group: 'OLL',
+    part: 2,
     scramble: "R U R' U R U2' R'",
     algorithm: "R U2 R' U' R U' R'",
+  },
+  {
+    id: 'oll-h',
+    name: 'H',
+    group: 'OLL',
+    part: 2,
+    scramble: "F U R U' R' U R U' R' U R U' R' F'",
+    algorithm: "F R U R' U' R U R' U' R U R' U' F'",
+  },
+  {
+    id: 'oll-pi',
+    name: 'Pi',
+    group: 'OLL',
+    part: 2,
+    scramble: "R' U2 R2 U R2 U R2 U2 R'",
+    algorithm: "R U2 R2 U' R2 U' R2 U2 R",
+  },
+  {
+    id: 'oll-u',
+    name: 'U',
+    group: 'OLL',
+    part: 2,
+    scramble: "R U2 R D R' U2 R D' R2",
+    algorithm: "R2 D R' U2 R D' R' U2 R'",
+  },
+  {
+    id: 'oll-t',
+    name: 'T',
+    group: 'OLL',
+    part: 2,
+    scramble: "F R' F' r U R U' r'",
+    algorithm: "r U R' U' r' F R F'",
+  },
+  {
+    id: 'oll-l',
+    name: 'L',
+    group: 'OLL',
+    part: 2,
+    scramble: "R' F' r U R U' r' F",
+    algorithm: "F' r U R' U' r' F R",
   },
 ]

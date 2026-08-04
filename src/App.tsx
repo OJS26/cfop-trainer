@@ -33,6 +33,28 @@ function App() {
     player.play()
   }
 
+  const renderCaseGroup = (partNumber: 1 | 2, label: string) => (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+      <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>{label}</span>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {cases.map((c, index) =>
+          c.part === partNumber ? (
+            <button
+              key={c.id}
+              onClick={() => selectCase(index)}
+              style={{
+                fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
+                opacity: index === currentCaseIndex ? 1 : 0.6,
+              }}
+            >
+              {c.name}
+            </button>
+          ) : null
+        )}
+      </div>
+    </div>
+  )
+
   return (
     <div
       style={{
@@ -48,20 +70,8 @@ function App() {
         gap: '1rem',
       }}
     >
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {cases.map((c, index) => (
-          <button
-            key={c.id}
-            onClick={() => selectCase(index)}
-            style={{
-              fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
-              opacity: index === currentCaseIndex ? 1 : 0.6,
-            }}
-          >
-            {c.name}
-          </button>
-        ))}
-      </div>
+      {renderCaseGroup(1, 'Part 1 — Edge Orientation')}
+      {renderCaseGroup(2, 'Part 2 — Corner Orientation')}
 
       <h1>{currentCase.name}</h1>
       <p>Scramble: {currentCase.scramble}</p>
