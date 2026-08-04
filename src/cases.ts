@@ -14,4 +14,11 @@ export const cases: Case[] = [
     scramble: "R U R' U R U2' R'",
     algorithm: "R U2 R' U' R U' R'",
   },
+  {
+    id: 'oll-antisune',
+    name: 'Anti-Sune',
+    group: 'OLL',
+    scramble: "R U2 R' U' R U' R'",
+    algorithm: "R U R' U R U2' R'",
+  },
 ]
