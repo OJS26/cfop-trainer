@@ -2,6 +2,19 @@ import { useRef, useState } from 'react'
 import 'cubing/twisty'
 import { cases } from './cases'
 
+function visualCubeUrl(scramble: string) {
+  const params = new URLSearchParams({
+    fmt: 'png',
+    size: '100',
+    view: 'plan',
+    stage: 'oll',
+    case: scramble,
+    sch: 'FFFF00,808080,808080,808080,808080,808080',
+    bg: 't',
+  })
+  return `https://visualcube.api.cubing.net/visualcube.php?${params.toString()}`
+}
+
 function App() {
   const [currentCaseIndex, setCurrentCaseIndex] = useState(0)
   const currentCase = cases[currentCaseIndex]
@@ -51,14 +64,7 @@ function App() {
                 padding: '4px',
               }}
             >
-              {/* @ts-expect-error - twisty-player is a custom element, not typed for React */}
-              <twisty-player
-                experimental-setup-alg={c.scramble}
-                visualization="experimental-2D-LL"
-                control-panel="none"
-                background="none"
-                style={{ width: '50px', height: '50px', pointerEvents: 'none' }}
-              />
+              <img src={visualCubeUrl(c.scramble)} width={50} height={50} alt={c.name} />
               {c.name}
             </button>
           ) : null
