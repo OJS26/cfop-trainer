@@ -1,12 +1,16 @@
 import { useRef, useState } from 'react'
 import 'cubing/twisty'
-import { sune } from './cases'
+import { cases } from './cases'
 
 function App() {
-  const scrambleRef = useRef<HTMLElement>(null)
-  const solveRef = useRef<HTMLElement>(null)
+  const [currentCaseIndex, setCurrentCaseIndex] = useState(0)
+  const currentCase = cases[currentCaseIndex]
+
   const [showAlgorithm, setShowAlgorithm] = useState(true)
   const [mode, setMode] = useState<'scramble' | 'solve'>('scramble')
+
+  const scrambleRef = useRef<HTMLElement>(null)
+  const solveRef = useRef<HTMLElement>(null)
 
   const playScramble = () => {
     setMode('scramble')
@@ -39,8 +43,8 @@ function App() {
         gap: '1rem',
       }}
     >
-      <h1>{sune.name}</h1>
-      <p>Scramble: {sune.scramble}</p>
+      <h1>{currentCase.name}</h1>
+      <p>Scramble: {currentCase.scramble}</p>
 
       <button onClick={() => setShowAlgorithm((prev) => !prev)}>
         {showAlgorithm ? 'Hide Algorithm' : 'Show Algorithm'}
@@ -49,10 +53,10 @@ function App() {
       {showAlgorithm &&
         (mode === 'scramble' ? (
           // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
-          <twisty-alg-viewer for="scramble-player" alg={sune.scramble} />
+          <twisty-alg-viewer for="scramble-player" alg={currentCase.scramble} />
         ) : (
           // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
-          <twisty-alg-viewer for="solve-player" alg={sune.algorithm} />
+          <twisty-alg-viewer for="solve-player" alg={currentCase.algorithm} />
         ))}
 
       <div style={{ display: mode === 'scramble' ? 'block' : 'none' }}>
@@ -60,7 +64,7 @@ function App() {
         <twisty-player
           id="scramble-player"
           ref={scrambleRef}
-          alg={sune.scramble}
+          alg={currentCase.scramble}
           background="none"
           control-panel="bottom-row"
           style={{ width: '300px', height: '300px' }}
@@ -72,8 +76,8 @@ function App() {
         <twisty-player
           id="solve-player"
           ref={solveRef}
-          experimental-setup-alg={sune.scramble}
-          alg={sune.algorithm}
+          experimental-setup-alg={currentCase.scramble}
+          alg={currentCase.algorithm}
           background="none"
           control-panel="bottom-row"
           style={{ width: '300px', height: '300px' }}
