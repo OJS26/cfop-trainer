@@ -12,6 +12,11 @@ function App() {
   const scrambleRef = useRef<HTMLElement>(null)
   const solveRef = useRef<HTMLElement>(null)
 
+  const selectCase = (index: number) => {
+    setCurrentCaseIndex(index)
+    setMode('scramble')
+  }
+
   const playScramble = () => {
     setMode('scramble')
     const player = scrambleRef.current as any
@@ -43,6 +48,21 @@ function App() {
         gap: '1rem',
       }}
     >
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {cases.map((c, index) => (
+          <button
+            key={c.id}
+            onClick={() => selectCase(index)}
+            style={{
+              fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
+              opacity: index === currentCaseIndex ? 1 : 0.6,
+            }}
+          >
+            {c.name}
+          </button>
+        ))}
+      </div>
+
       <h1>{currentCase.name}</h1>
       <p>Scramble: {currentCase.scramble}</p>
 
