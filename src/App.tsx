@@ -70,14 +70,7 @@ function App() {
         {showAlgorithm ? 'Hide Algorithm' : 'Show Algorithm'}
       </button>
 
-      {showAlgorithm &&
-        (mode === 'scramble' ? (
-          // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
-          <twisty-alg-viewer for="scramble-player" alg={currentCase.scramble} />
-        ) : (
-          // @ts-expect-error - twisty-alg-viewer is a custom element, not typed for React
-          <twisty-alg-viewer for="solve-player" alg={currentCase.algorithm} />
-        ))}
+      {showAlgorithm && <p>Algorithm: {currentCase.algorithm}</p>}
 
       <div style={{ display: mode === 'scramble' ? 'block' : 'none' }}>
         {/* @ts-expect-error - twisty-player is a custom element from cubing.js, not a typed React component */}
