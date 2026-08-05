@@ -1,17 +1,19 @@
 import { useRef, useState } from 'react'
 import 'cubing/twisty'
-import { cases } from './cases'
+import { cases, type Case } from './cases'
 
-function visualCubeUrl(scramble: string) {
+function visualCubeUrl(c: Case) {
   const params = new URLSearchParams({
     fmt: 'png',
     size: '100',
     view: 'plan',
-    stage: 'oll',
-    case: scramble,
-    sch: 'FFFF00,808080,808080,808080,808080,808080',
+    stage: c.group === 'OLL' ? 'oll' : 'pll',
+    case: c.scramble,
     bg: 't',
   })
+  if (c.group === 'OLL') {
+    params.set('sch', 'FFFF00,808080,808080,808080,808080,808080')
+  }
   return `https://visualcube.api.cubing.net/visualcube.php?${params.toString()}`
 }
 
@@ -78,7 +80,7 @@ function App() {
                   padding: '4px',
                 }}
               >
-                <img src={visualCubeUrl(c.scramble)} width={50} height={50} alt={c.name} />
+                <img src={visualCubeUrl(c)} width={50} height={50} alt={c.name} />
                 {c.name}
               </button>
             ) : null
@@ -124,8 +126,8 @@ function App() {
         </button>
       </div>
 
-      {renderCaseGroup(1, 'Part 1 — Edge Orientation')}
-      {renderCaseGroup(2, 'Part 2 — Corner Orientation')}
+      {renderCaseGroup(1, activeTab === 'OLL' ? 'Part 1 — Edge Orientation' : 'Part 1 — Corners')}
+      {renderCaseGroup(2, activeTab === 'OLL' ? 'Part 2 — Corner Orientation' : 'Part 2 — Edges')}
 
       <h1>{currentCase.name}</h1>
       <p>Scramble: {currentCase.scramble}</p>
