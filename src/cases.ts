@@ -3,8 +3,10 @@ export type Case = {
   name: string
   group: 'OLL' | 'PLL' | 'F2L'
   part: 1 | 2
+  family?: string
   scramble: string
   algorithm: string
+  imageUrl?: string
 }
 
 export const cases: Case[] = [
@@ -53,8 +55,8 @@ export const cases: Case[] = [
     name: 'H',
     group: 'OLL',
     part: 2,
-    scramble: "F U R U' R' U R U' R' U R U' R' F'",
-    algorithm: "F R U R' U' R U R' U' R U R' U' F'",
+    scramble: "R U2 R' U' R U R' U' R U' R'",
+    algorithm: "R U R' U R U' R' U R U2 R'",
   },
   {
     id: 'oll-pi',
@@ -85,8 +87,8 @@ export const cases: Case[] = [
     name: 'L',
     group: 'OLL',
     part: 2,
-    scramble: "R' F' r U R U' r' F",
-    algorithm: "F' r U R' U' r' F R",
+    scramble: "r U R' U' r' F R F'",
+    algorithm: "F R' F' r U R U' r'",
   },
   {
     id: 'pll-diagonal',
@@ -135,5 +137,41 @@ export const cases: Case[] = [
     part: 2,
     scramble: "M2 U2 M U' M2 U' M2 U' M",
     algorithm: "M' U M2 U M2 U M' U2 M2",
+  },
+  {
+    id: 'f2l-1',
+    name: 'Easy Pair — Right Insert',
+    group: 'F2L',
+    part: 1,
+    family: 'Easy',
+    scramble: "R U R' U'",
+    algorithm: "U R U' R'",
+  },
+  {
+    id: 'f2l-2',
+    name: 'Easy Pair — Left Insert',
+    group: 'F2L',
+    part: 1,
+    family: 'Easy',
+    scramble: "F' U' F U",
+    algorithm: "U' F' U F",
+  },
+  {
+    id: 'f2l-3',
+    name: "Trivial — F'U'F",
+    group: 'F2L',
+    part: 1,
+    family: 'Easy',
+    scramble: "F' U F",
+    algorithm: "F' U' F",
+  },
+  {
+    id: 'f2l-4',
+    name: "Trivial — RUR'",
+    group: 'F2L',
+    part: 1,
+    family: 'Easy',
+    scramble: "R U' R'",
+    algorithm: "R U R'",
   },
 ]
