@@ -16,6 +16,7 @@ function visualCubeUrl(scramble: string) {
 }
 
 function App() {
+  const [activeTab, setActiveTab] = useState<'OLL' | 'PLL'>('OLL')
   const [currentCaseIndex, setCurrentCaseIndex] = useState(0)
   const currentCase = cases[currentCaseIndex]
 
@@ -24,6 +25,15 @@ function App() {
 
   const scrambleRef = useRef<HTMLElement>(null)
   const solveRef = useRef<HTMLElement>(null)
+
+  const selectTab = (tab: 'OLL' | 'PLL') => {
+    setActiveTab(tab)
+    const firstIndexInTab = cases.findIndex((c) => c.group === tab)
+    if (firstIndexInTab !== -1) {
+      setCurrentCaseIndex(firstIndexInTab)
+    }
+    setMode('scramble')
+  }
 
   const selectCase = (index: number) => {
     setCurrentCaseIndex(index)
@@ -46,32 +56,37 @@ function App() {
     player.play()
   }
 
-  const renderCaseGroup = (partNumber: 1 | 2, label: string) => (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
-      <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>{label}</span>
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {cases.map((c, index) =>
-          c.part === partNumber ? (
-            <button
-              key={c.id}
-              onClick={() => selectCase(index)}
-              style={{
-                fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
-                opacity: index === currentCaseIndex ? 1 : 0.6,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '4px',
-              }}
-            >
-              <img src={visualCubeUrl(c.scramble)} width={50} height={50} alt={c.name} />
-              {c.name}
-            </button>
-          ) : null
-        )}
+  const renderCaseGroup = (partNumber: 1 | 2, label: string) => {
+    const casesInGroup = cases.filter((c) => c.group === activeTab && c.part === partNumber)
+    if (casesInGroup.length === 0) return null
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+        <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>{label}</span>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {cases.map((c, index) =>
+            c.group === activeTab && c.part === partNumber ? (
+              <button
+                key={c.id}
+                onClick={() => selectCase(index)}
+                style={{
+                  fontWeight: index === currentCaseIndex ? 'bold' : 'normal',
+                  opacity: index === currentCaseIndex ? 1 : 0.6,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '4px',
+                }}
+              >
+                <img src={visualCubeUrl(c.scramble)} width={50} height={50} alt={c.name} />
+                {c.name}
+              </button>
+            ) : null
+          )}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <div
@@ -88,6 +103,27 @@ function App() {
         gap: '1rem',
       }}
     >
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <button
+          onClick={() => selectTab('OLL')}
+          style={{
+            fontWeight: activeTab === 'OLL' ? 'bold' : 'normal',
+            borderBottom: activeTab === 'OLL' ? '2px solid white' : 'none',
+          }}
+        >
+          OLL
+        </button>
+        <button
+          onClick={() => selectTab('PLL')}
+          style={{
+            fontWeight: activeTab === 'PLL' ? 'bold' : 'normal',
+            borderBottom: activeTab === 'PLL' ? '2px solid white' : 'none',
+          }}
+        >
+          PLL
+        </button>
+      </div>
+
       {renderCaseGroup(1, 'Part 1 — Edge Orientation')}
       {renderCaseGroup(2, 'Part 2 — Corner Orientation')}
 
