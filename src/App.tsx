@@ -143,6 +143,7 @@ function App() {
         <twisty-player
           id="scramble-player"
           ref={scrambleRef}
+          experimental-setup-alg="z2"
           alg={currentCase.scramble}
           background="none"
           control-panel="bottom-row"
@@ -155,7 +156,7 @@ function App() {
         <twisty-player
           id="solve-player"
           ref={solveRef}
-          experimental-setup-alg={currentCase.scramble}
+          experimental-setup-alg={`z2 ${currentCase.scramble}`}
           alg={currentCase.algorithm}
           background="none"
           control-panel="bottom-row"
